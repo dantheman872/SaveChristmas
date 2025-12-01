@@ -6,10 +6,18 @@ let snowflake = {
     s: []
 }
 
+let present = {
+
+    x: 175,
+    y: 275,
+    w: 50
+}
+
 let i1, i2, i3, i4, ribbonTied
 
 let presentWrappingTrue = false
 let count = 0
+let presentCount = 0
 
 
 let player = {
@@ -19,7 +27,7 @@ let player = {
     s: 50,
     dirX: 0,
     dirY: 0,
-    m: 1
+    m: 2
 }
 
 let obstacle = {
@@ -27,11 +35,7 @@ let obstacle = {
     x: 0,
     y: 600,
     w: 400,
-    h: 600
-}
-function preload(){
-
-
+    h: 1200
 }
 
 function setup(){
@@ -58,19 +62,32 @@ function draw(){
 
             processMove()
         }
+        presentSpawning(width/2, height/2)
     }
+    
+    presentDrawing(width/2, height/2)
 
-    if(player.x > 100){
-
-        presentSpawning()
-    }
+    textAlign(CENTER,CENTER)
+    
+    fill(255)
     rect(obstacle.x, obstacle.y, obstacle.w, obstacle.h)
- //   presentSpawning()
-    presentWrapping()
-    presentDrawing(player.x, player.y)
 
-    text(count, 50, 50)
-    text(ribbonTied, 50, 60)
+    fill(200,100,200)
+    textSize(20)
+    text(presentCount + " Christmas Mornings Saved", width/2, 550)
+    
+
+    if(playerIsOverPresent(present.x, present.y, present.w) && presentWrappingTrue == false){
+
+        textSize(30)
+        text("Press F to Wrap", width/2, 500)
+    }
+
+    if(presentWrappingTrue){
+
+        textSize(30)
+        text("Click to Wrap", width/2, 500)
+    }
 }
 
 function snowFall(){
@@ -99,7 +116,7 @@ function snowFall(){
     }
 
 
-    if(frameCount % 20 == 0){
+    if(frameCount % 2 == 0){
 
         snowflake.x.push(random(0, width))
         snowflake.y.push(-10)
@@ -142,57 +159,63 @@ function canMove(xDir, yDir){
         || newY + player.s <= obstacle.y || newY >= obstacle.y + obstacle.h
 }
 
-function presentSpawning(){
+function presentSpawning(x, y){
 
-    presentWrappingTrue = true
-    i1 = player.y - 50
-    i2 = player.y - 50
-    i3 = player.y + 150
-    i4 = player.y + 150   
+    if(key === "f" && playerIsOverPresent(present.x, present.y, present.w)){
+        
+        count = 0
+        presentWrappingTrue = true
+        i1 = y- 50
+        i2 = x - 50
+        i3 = x + 150
+        i4 = y + 150 
+    }  
 }
 
 function presentDrawing(x, y){
 
     if(presentWrappingTrue){
-
         fill(255,204,0)
+        rectMode(CENTER)
 
         if(!ribbonTied){
-
-            rect(x - 45, y + 45, 190, 10)
+            
+            rect(x, y, 190, 10)
         }
     
         fill(198,140,83)
 
-        triangle(x, y, x + 100, y, x + 50, y + 50)
-        triangle(x, y, x, y + 100, x + 50, y + 50)
-        triangle(x + 100, y, x + 100, y + 100, x + 50, y + 50)
-        triangle(x, y + 100, x + 100, y + 100, x + 50, y + 50)
+        triangle(x - 50, y - 50, x + 50, y - 50, x, y)
+        triangle(x - 50, y - 50, x - 50, y + 50, x, y)
+        triangle(x + 50, y - 50, x + 50, y + 50, x, y)
+        triangle(x - 50, y + 50, x + 50, y + 50, x, y)
 
         fill(100,200,100)
 
-        triangle(x, y, x + 100, y, x + 50, i1)
-        triangle(x, y, x, y + 100, i2, y + 50)
-        triangle(x + 100, y, x + 100, y + 100, i3, y + 50)
-        triangle(x, y + 100, x + 100, y + 100, x + 50, i4)
+        triangle(x - 50, y - 50, x + 50, y - 50, x, i1 - 50)
+        triangle(x - 50, y - 50, x - 50, y + 50, i2 - 50, y)
+        triangle(x + 50, y - 50, x + 50, y + 50, i3 - 50, y)
+        triangle(x - 50, y + 50, x + 50, y + 50, x, i4 - 50)
 
         if(ribbonTied){
 
             fill(255, 204, 0)
-            rect(x, y + 45, 100, 10)
-            rect(x + 45, y + 35, 10, 30)
+            rect(x, y, 100, 10)
+            rect(x, y, 10, 30)
         }
+
+        rectMode(CORNER)
+    } else {
+
+        fill(198,140,83)
+        rect(present.x, present.y, present.w)
     }
 }
 
-function presentWrapping(){
+function playerIsOverPresent(x, y, w){
 
-
-}
-
-function ifMouseIsOver(){
-
-
+    return player.x + player.s <= x + w + 50 && player.x >= x - 50
+        && player.y + player.s <= y + w + 50 && player.y >= y - 50;  
 }
 
 function mousePressed(){
@@ -201,26 +224,43 @@ function mousePressed(){
 
     if (count == 1){
 
-        i1 = player.y + 50       
+        i1 = height/2 + 50       
     }    
 
     if(count == 2){
 
-        i3 = player.y + 50
+        i3 = width/2 + 50
     }
 
     if(count == 3){
 
-        i4 = player.y + 50
+        i4 = height/2 + 50
     }
 
     if(count == 4){
 
-        i2 = player.y + 50
+        i2 = width/2 + 50
     }
 
     if (count == 5){
 
         ribbonTied = true
+    }
+
+    if(count == 6 && presentWrappingTrue){
+
+        ribbonTied = false
+        count = 0 
+        presentCount += 1
+        presentWrappingTrue = false
+        present.x = random(50, width - 50)
+
+        if(player.y > obstacle.y/2){
+
+            present.y = random(50, obstacle.y /2)
+        } else {
+
+            present.y = random(obstacle.y/2, obstacle.y - 50)
+        }
     }
 }
