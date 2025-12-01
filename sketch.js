@@ -71,6 +71,10 @@ function draw(){
     
     fill(255)
     rect(obstacle.x, obstacle.y, obstacle.w, obstacle.h)
+    ellipse(20, obstacle.y, 100, 50)
+    ellipse(350, obstacle.y + 10, 300, 80)
+    ellipse(150, obstacle.y + 15, 300, 60)
+    ellipse(80, obstacle.y - 5, 80, 60)
 
     fill(200,100,200)
     textSize(20)
@@ -99,10 +103,7 @@ function snowFall(){
         noStroke()
         fill(255, 200)
         circle(snowflake.x[i], snowflake.y[i], snowflake.d[i])
-        ellipse(20, obstacle.y, 100, 50)
-        ellipse(350, obstacle.y + 10, 300, 80)
-        ellipse(150, obstacle.y + 15, 300, 60)
-        ellipse(80, obstacle.y - 5, 80, 60)
+        
 
         if(round(snowflake.y[i]) == obstacle.y){
 
@@ -111,12 +112,19 @@ function snowFall(){
 
         if(obstacle.y < 0 || obstacle.y < player.y){
 
-            background(0)
+            for(let i = 0; i < 200; i++){
+
+                snowflake.x.push(random(0, width))
+                snowflake.y.push(random(0, height))
+                snowflake.d.push(random(3,7))
+                snowflake.s.push(random(0.2, 0.4))
+            }
+            text("Snowed In!! :(", width/2, height/2)
         }
     }
 
 
-    if(frameCount % 2 == 0){
+    if(frameCount % 10 == 0){
 
         snowflake.x.push(random(0, width))
         snowflake.y.push(-10)
