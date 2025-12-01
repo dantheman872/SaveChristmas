@@ -18,6 +18,7 @@ let i1, i2, i3, i4, ribbonTied
 let presentWrappingTrue = false
 let count = 0
 let presentCount = 0
+let gameover = false
 
 
 let player = {
@@ -47,7 +48,7 @@ function setup(){
         snowflake.x.push(random(0, width))
         snowflake.y.push(random(0, height))
         snowflake.d.push(random(3,7))
-        snowflake.s.push(random(0.2, 0.4))
+        snowflake.s.push(random(1.2,1.6))
     }
 }
 
@@ -55,6 +56,10 @@ function draw(){
 
     background(200,100)
     snowFall()
+
+    fill(198,140,83)
+    rect(present.x, present.y, present.w)
+
     playerDraw()
     if(keyIsPressed){
 
@@ -65,16 +70,19 @@ function draw(){
         presentSpawning(width/2, height/2)
     }
     
-    presentDrawing(width/2, height/2)
-
-    textAlign(CENTER,CENTER)
-    
-    fill(255)
+    fill(220)
     rect(obstacle.x, obstacle.y, obstacle.w, obstacle.h)
     ellipse(20, obstacle.y, 100, 50)
     ellipse(350, obstacle.y + 10, 300, 80)
     ellipse(150, obstacle.y + 15, 300, 60)
     ellipse(80, obstacle.y - 5, 80, 60)
+
+    if(!gameover){
+        
+        presentDrawing(width/2, height/2)
+    }
+
+    textAlign(CENTER,CENTER)
 
     fill(200,100,200)
     textSize(20)
@@ -112,14 +120,10 @@ function snowFall(){
 
         if(obstacle.y < 0 || obstacle.y < player.y){
 
-            for(let i = 0; i < 200; i++){
-
-                snowflake.x.push(random(0, width))
-                snowflake.y.push(random(0, height))
-                snowflake.d.push(random(3,7))
-                snowflake.s.push(random(0.2, 0.4))
-            }
-            text("Snowed In!! :(", width/2, height/2)
+            fill(200,10,100)
+            textSize(40)
+            text("Snowed In!!", width/2, height/2)
+            gameover = true
         }
     }
 
@@ -129,7 +133,7 @@ function snowFall(){
         snowflake.x.push(random(0, width))
         snowflake.y.push(-10)
         snowflake.d.push(random(3,7))
-        snowflake.s.push(random(0.2, 0.4))
+        snowflake.s.push(random(1.2, 1.6))
     }
 }
 
@@ -144,18 +148,21 @@ function playerDraw(){
 
 function processMove(){
 
-    if (key === "d" || keyCode === RIGHT_ARROW && canMove(1, 0)){
+    if(!gameover){
+        
+        if (key === "d" || keyCode === RIGHT_ARROW && canMove(1, 0)){
 
-        player.x += player.m
-    } else if (key === "a" || keyCode === LEFT_ARROW && canMove(-1, 0)){
+            player.x += player.m
+        } else if (key === "a" || keyCode === LEFT_ARROW && canMove(-1, 0)){
 
-        player.x -= player.m
-    } else if (key === "s" || keyCode === DOWN_ARROW && canMove(0, 1)){
+            player.x -= player.m
+        } else if (key === "s" || keyCode === DOWN_ARROW && canMove(0, 1)){
 
-        player.y += player.m
-    } else if (key === "w" || keyCode === UP_ARROW && canMove(0, -1)){
+            player.y += player.m
+        } else if (key === "w" || keyCode === UP_ARROW && canMove(0, -1)){
 
-        player.y -= player.m
+            player.y -= player.m
+        }
     }
 }
 
@@ -213,11 +220,7 @@ function presentDrawing(x, y){
         }
 
         rectMode(CORNER)
-    } else {
-
-        fill(198,140,83)
-        rect(present.x, present.y, present.w)
-    }
+    } 
 }
 
 function playerIsOverPresent(x, y, w){
