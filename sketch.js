@@ -6,6 +6,12 @@ let snowflake = {
     s: []
 }
 
+let i1, i2, i3, i4, ribbonTied
+
+let presentWrappingTrue = false
+let count = 0
+
+
 let player = {
 
     x: 100,
@@ -48,21 +54,23 @@ function draw(){
     playerDraw()
     if(keyIsPressed){
 
-        processMove()
+        if(!presentWrappingTrue){
+
+            processMove()
+        }
+    }
+
+    if(player.x > 100){
+
+        presentSpawning()
     }
     rect(obstacle.x, obstacle.y, obstacle.w, obstacle.h)
+ //   presentSpawning()
+    presentWrapping()
+    presentDrawing(player.x, player.y)
 
-    triangle(100,100, 200,100, 150,150)
-    triangle(100,100, 100,200, 150,150)
-    triangle(200,100,200,200, 150,150)
-    triangle(100,200, 200,200,150,150)
-
-    fill(100,200,100)
-
-    triangle(100,100 ,200,100, 150,50)
-    triangle(100,100, 100, 200, 50, 150)
-    triangle(200,100,200, 200, 250, 150)
-    triangle(100, 200, 200, 200, 150, 250)
+    text(count, 50, 50)
+    text(ribbonTied, 50, 60)
 }
 
 function snowFall(){
@@ -136,10 +144,83 @@ function canMove(xDir, yDir){
 
 function presentSpawning(){
 
+    presentWrappingTrue = true
+    i1 = player.y - 50
+    i2 = player.y - 50
+    i3 = player.y + 150
+    i4 = player.y + 150   
+}
 
+function presentDrawing(x, y){
+
+    if(presentWrappingTrue){
+
+        fill(255,204,0)
+
+        if(!ribbonTied){
+
+            rect(x - 45, y + 45, 190, 10)
+        }
+    
+        fill(198,140,83)
+
+        triangle(x, y, x + 100, y, x + 50, y + 50)
+        triangle(x, y, x, y + 100, x + 50, y + 50)
+        triangle(x + 100, y, x + 100, y + 100, x + 50, y + 50)
+        triangle(x, y + 100, x + 100, y + 100, x + 50, y + 50)
+
+        fill(100,200,100)
+
+        triangle(x, y, x + 100, y, x + 50, i1)
+        triangle(x, y, x, y + 100, i2, y + 50)
+        triangle(x + 100, y, x + 100, y + 100, i3, y + 50)
+        triangle(x, y + 100, x + 100, y + 100, x + 50, i4)
+
+        if(ribbonTied){
+
+            fill(255, 204, 0)
+            rect(x, y + 45, 100, 10)
+            rect(x + 45, y + 35, 10, 30)
+        }
+    }
 }
 
 function presentWrapping(){
 
 
+}
+
+function ifMouseIsOver(){
+
+
+}
+
+function mousePressed(){
+
+    count++
+
+    if (count == 1){
+
+        i1 = player.y + 50       
+    }    
+
+    if(count == 2){
+
+        i3 = player.y + 50
+    }
+
+    if(count == 3){
+
+        i4 = player.y + 50
+    }
+
+    if(count == 4){
+
+        i2 = player.y + 50
+    }
+
+    if (count == 5){
+
+        ribbonTied = true
+    }
 }
