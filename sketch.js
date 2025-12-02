@@ -1,3 +1,15 @@
+function preload(){
+
+    santaSprite = [loadImage("assets/santa/r1")]
+}
+
+let i1, i2, i3, i4, ribbonTied, santaSprite
+
+let presentWrappingTrue = false
+let count = 0
+let presentCount = 0
+let gameover = false
+
 let snowflake = {
 
     x: [],
@@ -12,14 +24,6 @@ let present = {
     y: 275,
     w: 50
 }
-
-let i1, i2, i3, i4, ribbonTied
-
-let presentWrappingTrue = false
-let count = 0
-let presentCount = 0
-let gameover = false
-
 
 let player = {
 
