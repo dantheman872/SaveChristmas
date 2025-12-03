@@ -1,6 +1,6 @@
 function preload(){
 
-    santaSprite = [loadImage("assets/santa/r1")]
+//    santaSprite = [loadImage("assets/santa/r1")]
 }
 
 let i1, i2, i3, i4, ribbonTied, santaSprite
@@ -84,6 +84,12 @@ function draw(){
     if(!gameover){
         
         presentDrawing(width/2, height/2)
+    } else {
+
+        fill(200,10,100)
+        textSize(40)
+        text("Snowed In!!", width/2, height/2)
+        textSize(30)
     }
 
     textAlign(CENTER,CENTER)
@@ -124,9 +130,6 @@ function snowFall(){
 
         if(obstacle.y < 0 || obstacle.y < player.y){
 
-            fill(200,10,100)
-            textSize(40)
-            text("Snowed In!!", width/2, height/2)
             gameover = true
         }
     }
@@ -235,34 +238,51 @@ function playerIsOverPresent(x, y, w){
 
 function mousePressed(){
 
-    count++
+   // count++
+    let p1 = false
+    let p2 = false
+    let p3 = false
+    let p4 = false
 
-    if (count == 1){
+    if (count == 0 || count == 1 || count == 2 || count == 3){
 
-        i1 = height/2 + 50       
-    }    
+        if(mouseY < 250 && mouseY > 200 && mouseX < 250 && mouseX > 150){
 
-    if(count == 2){
+            i1 = height/2 +50
+            count++
+        }
 
-        i3 = width/2 + 50
+        if(mouseY > 350 && mouseY < 400 && mouseX < 250 && mouseX > 150){
+
+            i4 = height/2 + 50
+            count++
+        }
+
+        if(mouseX < 150 && mouseX > 100 && mouseY < 350 && mouseY > 250){
+
+            i2 = width/2 + 50
+            count++
+        }
+
+        if(mouseX < 300 && mouseX > 250 && mouseY < 350 && mouseY > 250){
+
+            i3 = width/2 + 50
+            count++
+        }
+    }   
+
+    if(count == 4 && mouseIsPressed){
+
+        count++
     }
 
-    if(count == 3){
-
-        i4 = height/2 + 50
-    }
-
-    if(count == 4){
-
-        i2 = width/2 + 50
-    }
-
-    if (count == 5){
+    if (count == 5 && mouseIsPressed){
 
         ribbonTied = true
+        count++
     }
 
-    if(count == 6 && presentWrappingTrue){
+    if(count == 6 && presentWrappingTrue && mouseIsPressed){
 
         ribbonTied = false
         count = 0 
