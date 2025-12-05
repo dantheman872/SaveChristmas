@@ -1,6 +1,6 @@
 function preload(){
 
-//    santaSprite = [loadImage("assets/santa/r1")]
+
 }
 
 let i1, i2, i3, i4, ribbonTied, santaSprite
@@ -9,6 +9,7 @@ let presentWrappingTrue = false
 let count = 0
 let presentCount = 0
 let gameover = false
+let gameStarted = false
 
 let snowflake = {
 
@@ -59,6 +60,14 @@ function setup(){
 function draw(){
 
     background(200,100)
+
+    if(gameStarted == false){
+
+        textSize(30)
+        text("Save Christmas!!", width/2, height/2 -100)
+        textSize(15)
+        text("Use WSAD to move over to this Present >", 60, 240, 100,100)
+    }
     snowFall()
 
     fill(198,140,83)
@@ -67,6 +76,7 @@ function draw(){
     playerDraw()
     if(keyIsPressed){
 
+        gameStarted = true
         if(!presentWrappingTrue){
 
             processMove()
@@ -123,7 +133,7 @@ function snowFall(){
         circle(snowflake.x[i], snowflake.y[i], snowflake.d[i])
         
 
-        if(round(snowflake.y[i]) == obstacle.y){
+        if(round(snowflake.y[i]) == obstacle.y && gameStarted == true){
 
             obstacle.y--
         }
@@ -224,6 +234,11 @@ function presentDrawing(x, y){
             fill(255, 204, 0)
             rect(x, y, 100, 10)
             rect(x, y, 10, 30)
+            rectMode(CENTER)
+            rect(380, 20, 40)
+            textSize(15)
+            fill(200,100,200)
+            text("Click here to send to the north Pole >", 230, 20)
         }
 
         rectMode(CORNER)
@@ -271,18 +286,18 @@ function mousePressed(){
         }
     }   
 
-    if(count == 4 && mouseIsPressed){
+    if(count == 4 && mouseX > 150 && mouseX < 250 && mouseY < 350 && mouseY > 250){
 
         count++
     }
 
-    if (count == 5 && mouseIsPressed){
+    if (count == 5){
 
         ribbonTied = true
         count++
     }
 
-    if(count == 6 && presentWrappingTrue && mouseIsPressed){
+    if(count == 6 && mouseX < 400 && mouseX > 360 && mouseY < 40 && mouseX > 0){
 
         ribbonTied = false
         count = 0 
