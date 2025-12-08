@@ -120,6 +120,21 @@ function draw(){
         textSize(30)
         text("Click to Wrap", width/2, 500)
     }
+
+    if(present.y > obstacle.y){
+
+        present.x = random(50, width - 50)
+
+        if(player.y > obstacle.y/2){
+
+            present.y = random(50, obstacle.y /2)
+        } else {
+
+            present.y = random(obstacle.y/2, obstacle.y - 50)
+        }
+        background(200,50,30)
+        presentCount -= 1
+    }
 }
 
 function snowFall(){
@@ -238,7 +253,7 @@ function presentDrawing(x, y){
             rect(380, 20, 40)
             textSize(15)
             fill(200,100,200)
-            text("Click here to send to the north Pole >", 230, 20)
+            text("Click here to send to the North Pole >", 230, 20)
         }
 
         rectMode(CORNER)
