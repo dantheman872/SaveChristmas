@@ -134,6 +134,8 @@ function draw(){
         }
         background(200,50,30)
         presentCount -= 1
+        count = 0
+        presentWrappingTrue = false
     }
 }
 
